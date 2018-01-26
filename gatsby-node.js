@@ -23,8 +23,8 @@ const getCollectionItems = async name => {
 
 // get all cockpit collections, together with their items
 const getCockpitCollections = async () => {
-  // const allCollections = await Cockpit.collectionGet('listCollections');
-  const allCollections = ['Post'];
+  const allCollections = await Cockpit.collectionsList();
+//   const allCollections = ['Post'];
   return Promise.all(allCollections.map(getCollectionItems));
 };
 
