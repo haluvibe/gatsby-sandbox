@@ -1,0 +1,36 @@
+{
+  "name": "gatsby-starter-hello-world",
+  "description": "Gatsby hello world starter",
+  "license": "MIT",
+  "scripts": {
+    "d": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "test": "xo"
+  },
+  "dependencies": {
+    "cockpit-sdk": "^0.9.0",
+    "crypto": "^1.0.1",
+    "gatsby": "^1.9.158",
+    "gatsby-link": "^1.6.34",
+    "gatsby-plugin-glamor": "^1.6.11",
+    "gatsby-plugin-typography": "^1.7.11",
+    "gatsby-source-filesystem": "^1.5.14",
+    "gatsby-transformer-remark": "^1.7.29",
+    "glamorous": "^4.11.4",
+    "pluralize": "^7.0.0",
+    "typography": "^0.16.6",
+    "typography-theme-kirkham": "^0.16.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.16.0",
+    "eslint-config-fbjs": "^2.0.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.41.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
+    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-relay": "0.0.20"
+  }
+}
