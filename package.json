@@ -15,7 +15,7 @@
     "gatsby-link": "^1.6.34",
     "gatsby-plugin-glamor": "^1.6.11",
     "gatsby-plugin-typography": "^1.7.11",
-    "gatsby-source-filesystem": "^1.5.14",
+    "gatsby-source-filesystem": "^1.5.15",
     "gatsby-transformer-remark": "^1.7.29",
     "glamorous": "^4.11.4",
     "pluralize": "^7.0.0",
