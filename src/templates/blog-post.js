@@ -8,7 +8,16 @@ export default ({ data }) => {
     <div>
       <h1>{post.name}</h1>
       <p>{post.content}</p>
-      <img src={post.image} />
+      {
+        post.teaser_image 
+          ? <img src={post.teaser_image.publicURL} /> 
+          : null
+      }
+      {
+        post.teaser_image 
+          ? post.teaser_image.publicURL
+          : null
+      }
     </div>
   );
 };
@@ -20,6 +29,9 @@ export const query = graphql`
         node {
           name
           content
+          teaser_image {
+            publicURL
+          }
         }
       }
     }

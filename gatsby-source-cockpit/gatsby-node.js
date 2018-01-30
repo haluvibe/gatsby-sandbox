@@ -4,15 +4,13 @@ const { singular } = require('pluralize');
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
 
 const COCKPIT_BASE = 'http://localhost:8888/cockpit';
-const COCKPIT_ASSETS_BASE = `${COCKPIT_BASE}/storage/uploads`;
+const COCKPIT_IMAGES_BASE = 'http://localhost:8888';
 const ACCESS_TOKEN = '4d659efb084077fd24aeb4871d4386';
 
 const Cockpit = new CockpitSDK({
   host: COCKPIT_BASE, // e.g. local docker Cockpit.
   accessToken: ACCESS_TOKEN,
 });
-
-Cockpit.assets().then(assets => console.log(assets));
 
 // get cockpit collection items by collection name
 const getCollectionItems = async name => {
@@ -23,13 +21,13 @@ const getCollectionItems = async name => {
 // get all cockpit collections, together with their items
 const getCockpitCollections = async () => {
   const allCollections = await Cockpit.collectionList();
-  //   const allCollections = ['Post'];
   return Promise.all(allCollections.map(getCollectionItems));
 };
 
 // gets all assets and adds them as file nodes
 // returns a map of url => node id
-const createAssetsNodes = async ({ assets, store, cache, createNode }) => {
+const createAssetsNodes = async ({ assets, store, cache, createNode, collectionsItems }) => {
+  const { entries, fields } = collectionsItems;
   const createRemoteAssetByPath = url =>
     createRemoteFileNode({
       url,
@@ -38,11 +36,25 @@ const createAssetsNodes = async ({ assets, store, cache, createNode }) => {
       createNode,
     }).then(({ id }) => ({ url, id }));
 
-  const allRemoveAssetsPromise = assets.map(asset =>
-    createRemoteAssetByPath(COCKPIT_ASSETS_BASE + asset.path)
-  );
+  collectionsItems.map(({ entries, fields }) => {
+    const imageFields = Object.keys(fields).filter(
+      fieldname => fields[fieldname].type === 'image'
+    );
 
-  const allResults = await Promise.all(allRemoveAssetsPromise);
+    imageFields.forEach(fieldname => {
+      entries.forEach(entry => {
+        if (entry[fieldname].path) {
+          assets.push({ 
+            path: `${COCKPIT_IMAGES_BASE}/${entry[fieldname].path}`,
+          });
+        }
+      });
+    });
+  });
+
+  const allRemoteAssetsPromise = assets.map(asset => createRemoteAssetByPath(asset.path));
+
+  const allResults = await Promise.all(allRemoteAssetsPromise);
 
   const finalAssetsMap = allResults.reduce(
     (acc, { url, id }) => ({
@@ -51,7 +63,6 @@ const createAssetsNodes = async ({ assets, store, cache, createNode }) => {
     }),
     {}
   );
-
   return finalAssetsMap;
 };
 
@@ -71,17 +82,24 @@ const createItemNode = ({ entry, fields, name, assetsMap, createNode }) => {
     }),
     {}
   );
-
   // map the entry image fields to link to the asset node
   // the important part is the `___NODE`.
   const entryImageFieldsOnly = imageFields.reduce(
-    (acc, fieldname) => ({
-      ...acc,
-      [`${fieldname}___NODE`]: assetsMap[
-        `${COCKPIT_BASE}${entry[fieldname].path}`
-      ],
-    }),
-    {}
+    (acc, fieldname) => {
+      let fileLocation;
+      if (entry[fieldname].path == null) return acc;
+      Object.keys(assetsMap).forEach(key => {
+        if (key.includes(entry[fieldname].path)) {
+          fileLocation = assetsMap[key]
+        }
+      })
+      const key = fieldname + '___NODE';
+      const newAcc = {
+        ...acc,
+        [key]: fileLocation
+      }
+      return newAcc;
+    }, {}
   );
 
   const node = {
@@ -99,6 +117,7 @@ const createItemNode = ({ entry, fields, name, assetsMap, createNode }) => {
     },
   };
   createNode(node);
+  console.log('node', node);
   return node;
 };
 
@@ -109,6 +128,8 @@ const createCollectionsItemsNodes = async ({
 }) =>
   Promise.all(
     collectionsItems.map(({ fields, entries, name }) => {
+      console.log('fields', fields);
+      console.log('entries', entries);
       const nodes = entries.map(entry =>
         createItemNode({
           entry,
@@ -128,18 +149,18 @@ exports.sourceNodes = async ({
   store,
   cache,
 }) => {
-  const { assets } = await Cockpit.assets();
-
-  // create assets fetch collection items nodes in paralel
-  const [assetsMap, collectionsItems] = await Promise.all([
-    createAssetsNodes({
-      assets,
-      store,
-      cache,
-      createNode,
-    }),
+  const [{ assets }, collectionsItems] = await Promise.all([
+    Cockpit.assets(), 
     getCockpitCollections(),
   ]);
+
+  const assetsMap = await createAssetsNodes({
+    assets,
+    store,
+    cache,
+    createNode,
+    collectionsItems,
+  });
 
   // create collections items and link them with the assets nodes
   await createCollectionsItemsNodes({
@@ -150,4 +171,3 @@ exports.sourceNodes = async ({
     assetsMap,
   });
 };
-

@@ -9,14 +9,15 @@
     "test": "xo"
   },
   "dependencies": {
-    "cockpit-sdk": "^0.9.0",
+    "cockpit-sdk": "^0.9.2",
     "crypto": "^1.0.1",
-    "gatsby": "^1.9.158",
-    "gatsby-link": "^1.6.34",
+    "gatsby": "^1.9.175",
+    "gatsby-link": "^1.6.35",
     "gatsby-plugin-glamor": "^1.6.11",
-    "gatsby-plugin-typography": "^1.7.11",
-    "gatsby-source-filesystem": "^1.5.15",
-    "gatsby-transformer-remark": "^1.7.29",
+    "gatsby-plugin-typography": "^1.7.13",
+    "gatsby-source-cockpit-headless-cms": "^1.0.1",
+    "gatsby-source-filesystem": "^1.5.16",
+    "gatsby-transformer-remark": "^1.7.30",
     "glamorous": "^4.11.4",
     "pluralize": "^7.0.0",
     "typography": "^0.16.6",
@@ -27,10 +28,10 @@
     "eslint": "^4.16.0",
     "eslint-config-fbjs": "^2.0.1",
     "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-flowtype": "^2.41.1",
+    "eslint-plugin-flowtype": "^2.42.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-markdown": "^1.0.0-beta.6",
-    "eslint-plugin-react": "^7.5.1",
+    "eslint-plugin-markdown": "^1.0.0-beta.7",
+    "eslint-plugin-react": "^7.6.1",
     "eslint-plugin-relay": "0.0.20"
   }
 }

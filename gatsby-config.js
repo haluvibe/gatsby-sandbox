@@ -10,6 +10,7 @@ module.exports = {
         path: `${__dirname}/src/`,
       },
     },
+    'gatsby-source-cockpit-headless-cms',
     `gatsby-transformer-remark`,
     `gatsby-plugin-glamor`,
     {
