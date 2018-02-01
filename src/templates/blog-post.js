@@ -1,4 +1,6 @@
 import React from 'react';
+import Markdown from 'react-markdown';
+import renderHTML from 'react-render-html';
 
 const arrayHead = arr => arr.length && arr[0];
 
@@ -18,6 +20,19 @@ export default ({ data }) => {
           ? post.teaser_image.publicURL
           : null
       }
+      {
+        post.md
+          ? <Markdown 
+            escapeHtml={true}
+            source={post.md} 
+          />
+          : null
+      }
+      {
+        post.wysiwyg 
+          ? renderHTML(post.wysiwyg)
+          : null
+      }
     </div>
   );
 };
@@ -29,6 +44,8 @@ export const query = graphql`
         node {
           name
           content
+          md
+          wysiwyg
           teaser_image {
             publicURL
           }

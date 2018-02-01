@@ -10,14 +10,22 @@ module.exports = {
         path: `${__dirname}/src/`,
       },
     },
-    'gatsby-source-cockpit-headless-cms',
-    `gatsby-transformer-remark`,
-    `gatsby-plugin-glamor`,
+    {
+      resolve: 'gatsby-source-cockpit-headless-cms',
+      options: {
+        cockpitConfig: {
+          COCKPIT_BASE_URL: 'http://localhost:8888',
+          COCKPIT_FOLDER: '/cockpit',
+          ACCESS_TOKEN: '4d659efb084077fd24aeb4871d4386',
+        },
+      },
+    },
     {
       resolve: `gatsby-plugin-typography`,
       options: {
         pathToConfigModule: `src/utils/typography`,
       },
     },
+    `gatsby-plugin-glamor`,
   ],
 };

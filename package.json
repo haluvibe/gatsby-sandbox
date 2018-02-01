@@ -11,15 +11,18 @@
   "dependencies": {
     "cockpit-sdk": "^0.9.2",
     "crypto": "^1.0.1",
+    "dotenv": "^5.0.0",
     "gatsby": "^1.9.175",
     "gatsby-link": "^1.6.35",
     "gatsby-plugin-glamor": "^1.6.11",
     "gatsby-plugin-typography": "^1.7.13",
     "gatsby-source-cockpit-headless-cms": "^1.0.1",
     "gatsby-source-filesystem": "^1.5.16",
-    "gatsby-transformer-remark": "^1.7.30",
     "glamorous": "^4.11.4",
+    "markdown": "^0.5.0",
     "pluralize": "^7.0.0",
+    "react-markdown": "^3.1.4",
+    "react-render-html": "^0.6.0",
     "typography": "^0.16.6",
     "typography-theme-kirkham": "^0.16.3"
   },
@@ -30,7 +33,6 @@
     "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-flowtype": "^2.42.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-markdown": "^1.0.0-beta.7",
     "eslint-plugin-react": "^7.6.1",
     "eslint-plugin-relay": "0.0.20"
   }
