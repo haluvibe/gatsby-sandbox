@@ -1,24 +1,23 @@
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
 const crypto = require('crypto');
 const { singular } = require('pluralize');
-const markdown = require( "markdown" ).markdown;
 
 class CockpitHelpers {
-  constructor(Cockpit, CockpitConfig) {
-    this.Cockpit = Cockpit;
-    this.CockpitConfig = CockpitConfig;
+  constructor(cockpit, config) {
+    this.cockpit = cockpit;
+    this.config = config;
   }
 
   // get cockpit collection items by collection name
   async getCollectionItems(name) {
-    const { fields, entries } = await this.Cockpit.collectionGet(name);
+    const { fields, entries } = await this.cockpit.collectionGet(name);
     return { fields, entries, name };
   }
 
   // get all cockpit collections, together with their items
   async getCockpitCollections() {
-    const allCollections = await this.Cockpit.collectionList();
-    const explictlyDefinedCollections = this.CockpitConfig.COLLECTIONS;
+    const allCollections = await this.cockpit.collectionList();
+    const explictlyDefinedCollections = this.config.collections;
 
     //allCollections filter by config file
     const collections = explictlyDefinedCollections instanceof Array 
@@ -37,14 +36,14 @@ class AssetMapHelpers {
     cache, 
     createNode, 
     collectionsItems, 
-    CockpitConfig,
+    config,
   }) {
     this.assets = assets;
     this.store = store;
     this.cache = cache; 
     this.createNode = createNode; 
     this.collectionsItems = collectionsItems;
-    this.CockpitConfig = CockpitConfig;
+    this.config = config;
   }
 
   addAllOtherImagesPathsToAssetsArray() {
@@ -56,7 +55,7 @@ class AssetMapHelpers {
         entries.forEach(entry => {
           if (entry[fieldname].path) {
             this.assets.push({
-              path: `${this.CockpitConfig.COCKPIT_BASE_URL}/${entry[fieldname].path}`,
+              path: `${this.config.baseURL}/${entry[fieldname].path}`,
             });
           }
         });

@@ -14,9 +14,9 @@ module.exports = {
       resolve: 'gatsby-source-cockpit-headless-cms',
       options: {
         cockpitConfig: {
-          COCKPIT_BASE_URL: 'http://localhost:8888',
-          COCKPIT_FOLDER: '/cockpit',
-          ACCESS_TOKEN: '4d659efb084077fd24aeb4871d4386',
+          baseURL: 'http://localhost:8888',
+          folder: '/cockpit',
+          accessToken: '4d659efb084077fd24aeb4871d4386',
         },
       },
     },

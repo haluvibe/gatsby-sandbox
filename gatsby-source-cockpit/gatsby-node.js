@@ -7,19 +7,18 @@ exports.sourceNodes = async ({
   cache,
 }, pluginOptions) => {
   
-  const CockpitConfig = pluginOptions.cockpitConfig;
-  const host = CockpitConfig.COCKPIT_BASE_URL + CockpitConfig.COCKPIT_FOLDER;
-  const accessToken = CockpitConfig.ACCESS_TOKEN;
+  const config = pluginOptions.cockpitConfig;
+  const host = config.baseURL + config.folder;
 
-  const Cockpit = new CockpitSDK({
+  const cockpit = new CockpitSDK({
     host,
-    accessToken,
+    accessToken: config.accessToken,
   });
 
-  const cockpitHelpers = new CockpitHelpers(Cockpit, CockpitConfig);
+  const cockpitHelpers = new CockpitHelpers(cockpit, config);
 
   const [{ assets }, collectionsItems] = await Promise.all([
-    Cockpit.assets(), 
+    cockpit.assets(), 
     cockpitHelpers.getCockpitCollections(),
   ]);
 
@@ -29,7 +28,7 @@ exports.sourceNodes = async ({
     cache,
     createNode,
     collectionsItems,
-    CockpitConfig,
+    config,
   });
 
   const assetsMap = await assetMapHelpers.createAssetsNodes();
