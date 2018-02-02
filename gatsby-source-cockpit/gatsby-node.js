@@ -1,5 +1,6 @@
 const CockpitSDK = require('cockpit-sdk').default;
 const { AssetMapHelpers, CockpitHelpers, CreateNodesHelpers } = require('./helpers');
+const extendNodeType = require('./extend-node-type');
 
 exports.sourceNodes = async ({
   boundActionCreators: { createNode },
@@ -43,3 +44,5 @@ exports.sourceNodes = async ({
 
   await createNodesHelpers.createCollectionsItemsNodes();
 };
+
+exports.setFieldsOnGraphQLNodeType = extendNodeType;

@@ -134,7 +134,8 @@ class CreateNodesHelpers {
   getOtherFields(fields) {
     const fieldsThatRequireParsing = ['image'];
     return Object.keys(fields).filter(
-      fieldname => fieldsThatRequireParsing.indexOf(fields[fieldname].type) === -1
+      fieldname => fieldsThatRequireParsing
+        .indexOf(fields[fieldname].type) === -1
     );
   }
 

@@ -6,6 +6,8 @@ const arrayHead = arr => arr.length && arr[0];
 
 export default ({ data }) => {
   const post = arrayHead(data.allPost.edges).node;
+  console.log(' post.layout_full',  post.layout_full);
+  console.log('post.layout', post.layout);
   return (
     <div>
       <h1>{post.name}</h1>
@@ -33,6 +35,11 @@ export default ({ data }) => {
           ? renderHTML(post.wysiwyg)
           : null
       }
+      {
+        post.layout_full
+          ? post.layout_full.map(component => console.log('component', component))
+          : null
+      }
     </div>
   );
 };
@@ -46,6 +53,10 @@ export const query = graphql`
           content
           md
           wysiwyg
+          layout {
+            component
+          }
+          layout_full
           teaser_image {
             publicURL
           }
