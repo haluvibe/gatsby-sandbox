@@ -16,17 +16,19 @@ class CockpitHelpers {
 
   // get all cockpit collections, together with their items
   async getCockpitCollections() {
+    const collections = await this.getCollectionNames();
+    return Promise.all(collections.map(name => this.getCollectionItems(name)));
+  }  
+
+  async getCollectionNames() {
     const allCollections = await this.cockpit.collectionList();
     const explictlyDefinedCollections = this.config.collections;
 
-    //allCollections filter by config file
-    const collections = explictlyDefinedCollections instanceof Array 
+    return explictlyDefinedCollections instanceof Array 
       ? allCollections.filter(
         name => explictlyDefinedCollections.indexOf(name) > -1)
       : allCollections;
-
-    return Promise.all(collections.map(name => this.getCollectionItems(name)));
-  }  
+  }
 }
 
 class AssetMapHelpers {
@@ -132,10 +134,8 @@ class CreateNodesHelpers {
   }
 
   getOtherFields(fields) {
-    const fieldsThatRequireParsing = ['image'];
     return Object.keys(fields).filter(
-      fieldname => fieldsThatRequireParsing
-        .indexOf(fields[fieldname].type) === -1
+      fieldname => fields[fieldname].type !== 'image'
     );
   }
 
@@ -146,12 +146,12 @@ class CreateNodesHelpers {
       (acc, fieldname) => {
         if (entry[fieldname].path == null) {
           return acc;
-        };
+        }
   
         let fileLocation;
         Object.keys(this.assetsMap).forEach(key => {
           if (key.includes(entry[fieldname].path)) {
-            fileLocation = this.assetsMap[key]
+            fileLocation = this.assetsMap[key];
           }
         });
         const key = fieldname + '___NODE';

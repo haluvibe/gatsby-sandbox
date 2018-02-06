@@ -17,11 +17,15 @@ exports.sourceNodes = async ({
   });
 
   const cockpitHelpers = new CockpitHelpers(cockpit, config);
+  const collectionNames = await cockpitHelpers.getCollectionNames();
 
   const [{ assets }, collectionsItems] = await Promise.all([
     cockpit.assets(), 
     cockpitHelpers.getCockpitCollections(),
   ]);
+
+  exports.collectionsItems = collectionsItems;
+  exports.collectionsNames = collectionNames;
 
   const assetMapHelpers = new AssetMapHelpers({
     assets,
