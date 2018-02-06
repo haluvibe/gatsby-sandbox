@@ -1,0 +1,8 @@
+import React from 'react';
+import Layout from '../Layout/Layout';
+import uuidv4 from 'uuid/v4';
+
+export default ({ children }) => 
+  <section>
+    { children && children.map(component => <Layout key={uuidv4()} {...component} />) }
+  </section>

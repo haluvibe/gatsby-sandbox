@@ -27,5 +27,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-glamor`,
+    `gatsby-plugin-react-next`,
   ],
 };
