@@ -8,6 +8,7 @@ const arrayHead = arr => arr.length && arr[0];
 
 export default ({ data }) => {
   const post = arrayHead(data.allPost.edges).node;
+  console.log('post.layout_parsed', post.layout_parsed);
   return (
     <div>
       <h1>{post.name}</h1>
@@ -36,8 +37,8 @@ export default ({ data }) => {
           : null
       }
       {
-        post.layout_full
-          ? post.layout_full.map(props => <Layout key={uuidv4()} {...props}/>)
+        post.layout_parsed
+          ? post.layout_parsed.map(props => <Layout key={uuidv4()} {...props}/>)
           : null
       }
     </div>
@@ -56,7 +57,7 @@ export const query = graphql`
           layout {
             component
           }
-          layout_full
+          layout_parsed
           teaser_image {
             publicURL
           }
