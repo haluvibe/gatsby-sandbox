@@ -196,10 +196,12 @@ class CreateNodesHelpers {
     const srcRegex = /src\s*=\s*"(.+?)"/ig;
 
     const imageSources = field.match(srcRegex).map(src => src.substr(5).slice(0, -1));
-    
-    const validImageUrls = imageSources.map(src => this.config.baseURL + src);
 
-    const wysiwygImagesPromises = validImageUrls.map(url => createRemoteAssetByPath(url, this.store, this.cache, this.createNode));
+    const validImageUrls = imageSources
+      .map(src => validUrl.isUri(src) ? src : this.config.baseURL + src);
+
+    const wysiwygImagesPromises = validImageUrls
+      .map(url => createRemoteAssetByPath(url, this.store, this.cache, this.createNode));
     
     const imagesFulfilled = await Promise.all(wysiwygImagesPromises);
 
