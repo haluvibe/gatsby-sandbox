@@ -24,9 +24,11 @@ exports.sourceNodes = async ({
     cockpitHelpers.getCockpitCollections(),
   ]);
 
+  assets.forEach(asset => asset.path = host + '/storage/uploads' + asset.path);
+
   exports.collectionsItems = collectionsItems;
   exports.collectionsNames = collectionNames;
-
+ 
   const assetMapHelpers = new AssetMapHelpers({
     assets,
     store,
@@ -44,6 +46,7 @@ exports.sourceNodes = async ({
     cache,
     createNode,
     assetsMap,
+    config,
   });
 
   await createNodesHelpers.createCollectionsItemsNodes();

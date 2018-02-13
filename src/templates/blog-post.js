@@ -11,29 +11,10 @@ export default ({ data }) => {
   console.log('post.layout_parsed', post.layout_parsed);
   return (
     <div>
-      <h1>{post.name}</h1>
-      <p>{post.content}</p>
+      <h1>{post.title}</h1>
       {
-        post.teaser_image 
-          ? <img src={post.teaser_image.publicURL} /> 
-          : null
-      }
-      {
-        post.teaser_image 
-          ? post.teaser_image.publicURL
-          : null
-      }
-      {
-        post.md
-          ? <Markdown 
-            escapeHtml={true}
-            source={post.md} 
-          />
-          : null
-      }
-      {
-        post.wysiwyg 
-          ? renderHTML(post.wysiwyg)
+        post.image 
+          ? <img src={post.image.publicURL} /> 
           : null
       }
       {
@@ -50,17 +31,15 @@ export const query = graphql`
     allPost(filter: { slug: { eq: $slug } }) {
       edges {
         node {
-          name
-          content
-          md
-          wysiwyg
+          title
+          layoutGrid
+          image {
+            publicURL
+          }
           layout {
             component
           }
           layout_parsed
-          teaser_image {
-            publicURL
-          }
         }
       }
     }

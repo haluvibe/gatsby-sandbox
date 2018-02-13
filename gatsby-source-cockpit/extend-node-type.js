@@ -2,13 +2,13 @@ const GraphQLJSON = require('graphql-type-json');
 const gatsbyNode = require('./gatsby-node');
 const { singular } = require('pluralize');
 const styler = require('react-styling');
+const sanitizeHtml = require('sanitize-html');
 const HtmlToReactParser = require('html-to-react').Parser;
 const htmlToReactParser = new HtmlToReactParser();
 
-
 module.exports = async (
   { type, store, pathPrefix, getNode, cache },
-  pluginOptions
+  { cockpitConfig }
 ) => {
   const { collectionsItems, collectionsNames } = gatsbyNode;
   const singularCollectionNames = collectionsNames.map(name => singular(name));
@@ -22,27 +22,32 @@ module.exports = async (
       return layout;
     }
     const parsedLayout = layout.map(node => {
-      if ('settings' in node) {
-        node.settings = parseSettings(node.settings);
+      if (node.settings) {
+        node = parseSettings(node);
       }
       Object.entries(node).forEach(([key, value]) => {
         if (value instanceof Array) {
           parseLayout(node[key]);
         }
-        if (value instanceof Object && 'settings' in node[key]) {
+        if (value instanceof Object && node[key].settings) {
           node[key].settings = parseSettings(node.settings);
         }
       });
       return node;
     });
     return parsedLayout;
-  }
+  };
 
-  const parseSettings = (settings) => {
-    if (settings.text === '' || settings.text == null) {
-      settings.text = null;
-    } else {
-      settings.textReact = htmlToReactParser.parse(settings.text);
+  const parseSettings = (node) => {
+    const { settings } = node;
+    if (settings.text === '') {
+      node.html = null;
+      delete settings.text;
+    } else if (settings.text && settings.text.length > 0) {
+      node.html = settings.text;
+      node.html_sanitize = sanitizeHtml(settings.text, cockpitConfig.sanitizeHtmlConfig);
+      node.html_react = htmlToReactParser.parse(settings.text);
+      delete settings.text;
     }
     if (settings.id === '') {
       settings.id = null;
@@ -53,13 +58,12 @@ module.exports = async (
       settings.className = null;
     }
     delete settings.class;
-    
     if (settings.style === '' || settings.style == null) {
       settings.style = null;
     } else {
       settings.style = styler(settings.style);
     }
-    return settings;
+    return node;
   };
 
   let nodeExtendType = {};
@@ -77,12 +81,10 @@ module.exports = async (
         type: GraphQLJSON,
         resolve(Item) {
           const parsedLayout = parseLayout(Item[`${fieldname}`]);
-          console.log('parsedLayout', JSON.stringify(parsedLayout));
           return parsedLayout;
         },
       };
     });
   });
-
   return nodeExtendType;
 };

@@ -1,3 +1,5 @@
+const sanitizeHtml = require('sanitize-html');
+
 module.exports = {
   siteMetadata: {
     title: `Pandas Eating Lots`,
@@ -16,7 +18,11 @@ module.exports = {
         cockpitConfig: {
           baseURL: 'http://localhost:8888',
           folder: '/cockpit',
-          accessToken: '4d659efb084077fd24aeb4871d4386',
+          accessToken: '52e96b14e61f3d3c5e5723bd9b9927',
+          sanitizeHtmlConfig: {
+            // https://www.npmjs.com/package/sanitize-html
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img' ])
+          },
         },
       },
     },
