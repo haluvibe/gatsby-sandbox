@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Column component should render as expected 1`] = `
+<div
+  className="a-class another-class l-grid-cell"
+  id="id"
+  style={
+    Object {
+      "backgroundColor": "red",
+      "fontSize": 16,
+    }
+  }
+/>
+`;
