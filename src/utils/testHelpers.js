@@ -7,4 +7,12 @@ export const mockSettings = {
   }
 }
 
+export const mockData = {
+  site: {
+    siteMetadata: {
+      title: "Mock Title",
+    },
+  },
+};
+
 export const mockHtml = '<div>Hello test world</div>';
