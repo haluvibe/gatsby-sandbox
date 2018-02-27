@@ -4,13 +4,27 @@ export const mockSettings = {
   style: {
     backgroundColor: 'red',
     fontSize: 16,
-  }
-}
+  },
+};
+
+export const mockChildren = [
+  {
+    settings: mockSettings,
+    component: 'section',
+  },
+];
+
+export const mockColumns = [
+  {
+    settings: mockSettings,
+    component: 'column',
+  },
+];
 
 export const mockData = {
   site: {
     siteMetadata: {
-      title: "Mock Title",
+      title: 'Mock Title',
     },
   },
 };

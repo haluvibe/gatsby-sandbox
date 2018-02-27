@@ -9,9 +9,11 @@ const components = {
   text: Text,
 };
 
-export default ({component, ...others}) => {
+export default ({ component, ...others }) => {
   const ComponentType = components[component];
-  return ComponentType 
-    ? <ComponentType {...others} />
-    : <div>{`${component} doesn't exist`}</div>
+  return ComponentType ? (
+    <ComponentType {...others} />
+  ) : (
+    <div>{`${component} component doesn't exist`}</div>
+  );
 };

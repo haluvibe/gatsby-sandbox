@@ -1,7 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout component should render as expected 1`] = `
+exports[`<Layout /> handles missing component correctly 1`] = `
 <div>
-  undefined doesn't exist
+  hello world component doesn't exist
 </div>
+`;
+
+exports[`<Layout /> renders as expected 1`] = `
+<Component
+  settings={
+    Object {
+      "className": "a-class another-class",
+      "id": "id",
+      "style": Object {
+        "backgroundColor": "red",
+        "fontSize": 16,
+      },
+    }
+  }
+/>
 `;
